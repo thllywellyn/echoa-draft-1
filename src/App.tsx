@@ -156,16 +156,28 @@ export default function App() {
       </header>
 
       <section className="hero" id="home">
-        <picture>
-          <source media="(max-width: 600px)" srcSet={`${A}/39a39.png`} />
-          <img
-            src={`${A}/98fd8.png`}
-            alt="Brands deserve to be remembered, not just seen."
-          />
-        </picture>
-        <a className="hero__button" href="#contact">
-          Start a project
-        </a>
+        <img className="hero-ripple" src={`${A}/0bf8e.png`} alt="" />
+        <div className="section-shell hero-content">
+          <a href="#home" className="logo" aria-label="Echoa home">
+            <img src={`${A}/b9e70.png`} alt="Echoa" />
+          </a>
+          <h1>
+            Brands deserve to
+            <br />
+            be <em>remembered,</em>
+            <br />
+            not just seen.
+          </h1>
+          <p className="hero-lead">
+            We plan and produce content for brands
+            <br />
+            worth remembering.
+          </p>
+          <p className="hero-meta">Strategy | Creative Direction | Production | Execution.</p>
+          <a className="hero__button" href="#contact">
+            Start a Project
+          </a>
+        </div>
       </section>
 
       <section className="work section-shell" id="work">
@@ -397,7 +409,7 @@ export default function App() {
               <p className="footer-caption">
                 Brand Content Company
                 <br />
-                91+ 0000000000
+                91+ 81687828570
               </p>
             </div>
             <nav aria-label="Footer navigation">
@@ -410,11 +422,18 @@ export default function App() {
             <div className="footer-links">
               <span className="footer-heading">Social Media</span>
               <a href="mailto:hello@echoa.in">hello@echoa.in</a>
-              <a href="#" aria-label="Echoa on Instagram">
+              <a href="https://www.instagram.com/echoa.in/" target="_blank" rel="noreferrer">
                 Instagram ↗
               </a>
-              <a href="#" aria-label="Echoa on LinkedIn">
+              <a href="https://www.linkedin.com/company/echoa-in/" target="_blank" rel="noreferrer">
                 LinkedIn ↗
+              </a>
+              <a
+                href="https://api.whatsapp.com/send/?phone=918168782857&text=Hi+ECHOA%21+I%27d+love+to+connect"
+                target="_blank"
+                rel="noreferrer"
+              >
+                WhatsApp ↗
               </a>
             </div>
           </div>
