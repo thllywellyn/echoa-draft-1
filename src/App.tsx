@@ -265,7 +265,23 @@ export default function App() {
             concept work pending approved client assets.
           </SectionIntro>
         </div>
-        <div className="film" aria-label="Echoa showreel placeholder" />
+        <div className="film">
+          <video
+            autoPlay
+            controls
+            loop
+            muted
+            playsInline
+            preload="metadata"
+            poster={`${A}/film-poster.svg`}
+            width={1920}
+            height={1080}
+            aria-label="Echoa showreel"
+          >
+            <source src={`${A}/film.mp4`} type="video/mp4" />
+            Your browser does not support HTML video.
+          </video>
+        </div>
       </section>
 
       <section className="belief section-shell">
