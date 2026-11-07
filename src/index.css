@@ -445,6 +445,23 @@ a {
   width: 219px;
   height: 219px;
   object-fit: contain;
+  rotate: 0deg;
+  filter: drop-shadow(0 10px 18px rgba(58, 42, 36, 0.14));
+  animation: belief-spin 18s linear infinite;
+  transition:
+    transform 0.45s ease,
+    filter 0.45s ease;
+}
+
+.belief > img:hover {
+  transform: perspective(800px) rotateX(10deg) rotateY(-12deg) scale(1.06);
+  filter: drop-shadow(0 18px 26px rgba(58, 42, 36, 0.28));
+}
+
+@keyframes belief-spin {
+  to {
+    rotate: 360deg;
+  }
 }
 
 .about {
@@ -1076,6 +1093,10 @@ footer {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .belief > img {
+    animation: none;
   }
 
   *,
