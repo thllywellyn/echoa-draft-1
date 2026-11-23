@@ -1,13 +1,20 @@
-import { useState } from "react"
-import type { FormEvent } from "react"
+import { Footer, Header } from "./components/layout"
+import { CategoryPage } from "./components/ui/CategoryPage"
+import {
+  Accordion,
+  ContactForm,
+  SectionIntro,
+  WorkGrid,
+} from "./components/ui"
+import { useEffect, useState } from "react"
 
 const A = "/assets"
 
 const work = [
-  { title: "Fashion", image: "7904d.png", position: "center" },
-  { title: "Jewellery", image: "d5370.png", position: "center top" },
-  { title: "Beauty", image: "592d7.png", position: "58% center" },
-  { title: "Lifestyle", image: "c4150.png", position: "right center" },
+  { title: "Fashion", image: "7904d.png", position: "center", href: "#/fashion" },
+  { title: "Jewellery", image: "d5370.png", position: "center top", href: "#/jewellery" },
+  { title: "Beauty", image: "592d7.png", position: "58% center", href: "#/beauty" },
+  { title: "Lifestyle", image: "c4150.png", position: "right center", href: "#/lifestyle" },
 ]
 
 const capabilities = [
@@ -45,115 +52,25 @@ const services = [
   ],
 ]
 
-function Accordion({
-  items,
-  light = false,
-}: {
-  items: string[][]
-  light?: boolean
-}) {
-  const [open, setOpen] = useState<number | null>(null)
-
-  return (
-    <div className={`accordion ${light ? "accordion--light" : ""}`}>
-      {items.map(([title, body], index) => {
-        const isOpen = open === index
-        return (
-          <div
-            className={`accordion__item ${isOpen ? "is-open" : ""}`}
-            key={title}
-          >
-            <button
-              type="button"
-              aria-expanded={isOpen}
-              onClick={() => setOpen(isOpen ? null : index)}
-            >
-              <span>{title}</span>
-              <img src={`${A}/${light ? "cae3f.svg" : "a2430.svg"}`} alt="" />
-            </button>
-            <div className="accordion__answer" aria-hidden={!isOpen}>
-              <p>{body}</p>
-            </div>
-          </div>
-        )
-      })}
-    </div>
-  )
-}
-
-function SectionIntro({
-  eyebrow,
-  title,
-  children,
-  inverse = false,
-}: {
-  eyebrow: string
-  title: React.ReactNode
-  children: React.ReactNode
-  inverse?: boolean
-}) {
-  return (
-    <div className={`section-intro ${inverse ? "section-intro--inverse" : ""}`}>
-      <p className="eyebrow">{eyebrow}</p>
-      <h2>{title}</h2>
-      <p className="description">{children}</p>
-    </div>
-  )
-}
-
 export default function App() {
-  const [menuOpen, setMenuOpen] = useState(false)
+  const [category, setCategory] = useState(() => window.location.hash.replace("#/", "").split("/")[0])
 
-  function submitContact(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    const form = new FormData(event.currentTarget)
-    const subject = encodeURIComponent(
-      `Project enquiry from ${form.get("name")} — ${form.get("company")}`,
-    )
-    const body = encodeURIComponent(
-      `Name: ${form.get("name")}\nBrand / Company: ${form.get("company")}\nMobile: ${form.get("mobile")}\nEmail: ${form.get("email")}\nProject type: ${form.get("type")}\n\n${form.get("message")}`,
-    )
-    window.location.href = `mailto:hello@echoa.in?subject=${subject}&body=${body}`
+  useEffect(() => {
+    const handleHashChange = () => {
+      setCategory(window.location.hash.replace("#/", "").split("/")[0])
+      window.scrollTo({ top: 0 })
+    }
+    window.addEventListener("hashchange", handleHashChange)
+    return () => window.removeEventListener("hashchange", handleHashChange)
+  }, [])
+
+  if (["fashion", "jewellery", "beauty", "lifestyle"].includes(category)) {
+    return <CategoryPage category={category as "fashion" | "jewellery" | "beauty" | "lifestyle"} />
   }
 
   return (
     <main>
-      <header className="site-header">
-        <a href="#home" className="logo" aria-label="Echoa home">
-          <img src={`${A}/b9e70.png`} alt="Echoa" />
-        </a>
-        <button
-          className="menu-button"
-          type="button"
-          aria-label="Toggle navigation"
-          aria-expanded={menuOpen}
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          <img src={`${A}/fb9db.svg`} alt="" />
-        </button>
-        <nav
-          className={menuOpen ? "is-open" : ""}
-          aria-label="Primary navigation"
-        >
-          {[
-            ["Home", "home"],
-            ["Work", "work"],
-            ["Services", "services"],
-            ["About", "about"],
-          ].map(([label, id]) => (
-            <a key={id} href={`#${id}`} onClick={() => setMenuOpen(false)}>
-              {label}
-            </a>
-          ))}
-          <a
-            className="contact-button"
-            href="#contact"
-            onClick={() => setMenuOpen(false)}
-          >
-            Contact
-          </a>
-        </nav>
-      </header>
+      <Header />
 
       <section className="hero" id="home">
         <img className="hero-ripple" src={`${A}/0bf8e.png`} alt="" />
@@ -194,22 +111,7 @@ export default function App() {
           A selection of visual worlds shaped with intention. Imagery shown is
           concept work pending approved client assets.
         </SectionIntro>
-        <div className="work-grid">
-          {work.map((item, index) => (
-            <article className="work-card" key={item.title}>
-              <img
-                src={`${A}/${item.image}`}
-                alt={`${item.title} concept photography`}
-                style={{ objectPosition: item.position }}
-              />
-              <div className="work-card__shade" />
-              <div className="work-card__label">
-                <span>0{index + 1}</span>
-                <h3>{item.title}</h3>
-              </div>
-            </article>
-          ))}
-        </div>
+        <WorkGrid items={work} />
       </section>
 
       <section className="capabilities">
@@ -370,95 +272,10 @@ export default function App() {
               Start a Conversation
             </button>
           </div>
-          <form id="contact-form" onSubmit={submitContact}>
-            <input name="name" placeholder="Name*" aria-label="Name" required />
-            <input
-              name="company"
-              placeholder="Brand / Company*"
-              aria-label="Brand or company"
-              required
-            />
-            <input
-              name="mobile"
-              placeholder="Mobile number*"
-              aria-label="Mobile number"
-              required
-            />
-            <input
-              name="email"
-              type="email"
-              placeholder="Email"
-              aria-label="Email"
-            />
-            <textarea
-              name="message"
-              placeholder="Message"
-              aria-label="Message"
-              rows={1}
-            />
-            <select
-              name="type"
-              aria-label="Project type"
-              defaultValue=""
-              required
-            >
-              <option value="" disabled>
-                Project Type*
-              </option>
-              <option>Content Planning</option>
-              <option>Creative Direction</option>
-              <option>Content Production</option>
-              <option>Content Execution</option>
-            </select>
-            <p>
-              Submitting opens a pre-filled email. No information is stored.
-            </p>
-          </form>
+          <ContactForm />
         </div>
       </section>
-
-      <footer>
-        <div className="section-shell">
-          <div className="footer-grid">
-            <div>
-              <img className="footer-logo" src={`${A}/b2ac7.png`} alt="Echoa" />
-              <p className="footer-caption">
-                Brand Content Company
-                <br />
-                91+ 81687828570
-              </p>
-            </div>
-            <nav aria-label="Footer navigation">
-              <span className="footer-heading">Page</span>
-              <a href="#work">Work</a>
-              <a href="#services">Services</a>
-              <a href="#about">About</a>
-              <a href="#contact">Contact</a>
-            </nav>
-            <div className="footer-links">
-              <span className="footer-heading">Social Media</span>
-              <a href="mailto:hello@echoa.in">hello@echoa.in</a>
-              <a href="https://www.instagram.com/echoa.in/" target="_blank" rel="noreferrer">
-                Instagram ↗
-              </a>
-              <a href="https://www.linkedin.com/company/echoa-in/" target="_blank" rel="noreferrer">
-                LinkedIn ↗
-              </a>
-              <a
-                href="https://api.whatsapp.com/send/?phone=918168782857&text=Hi+ECHOA%21+I%27d+love+to+connect"
-                target="_blank"
-                rel="noreferrer"
-              >
-                WhatsApp ↗
-              </a>
-            </div>
-          </div>
-          <div className="footer-bottom">
-            <span>© 2026 ECHOA</span>
-            <span>Ideas create a ripple.</span>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </main>
   )
 }

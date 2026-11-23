@@ -1,0 +1,122 @@
+/* ==================================
+Tablet styles (601px to 900px)
+================================== */
+@media (max-width: 900px) {
+  .section-shell {
+    width: min(100% - 40px, 680px);
+  }
+
+  .site-header {
+    height: 68px;
+    padding-inline: 20px;
+  }
+
+  .menu-button {
+    width: 32px;
+    height: 32px;
+    padding: 7px 2px;
+    border: 0;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 7px;
+  }
+
+  .menu-button img {
+    width: 24px;
+    height: 24px;
+  }
+
+  .site-header nav {
+    position: absolute;
+    top: 68px;
+    left: 0;
+    right: 0;
+    padding: 26px 20px 30px;
+    background: var(--cream);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 22px;
+    transform: translateY(-130%);
+    visibility: hidden;
+    transition: transform .25s ease, visibility .25s;
+  }
+
+  .site-header nav.is-open {
+    transform: translateY(0);
+    visibility: visible;
+  }
+
+  .hero {
+    height: 62vw;
+    min-height: 370px;
+  }
+
+  .hero-ripple {
+    width: 936.135px;
+    height: 514.763px;
+    transform: rotate(65deg);
+    aspect-ratio: 411/226;
+  }
+
+  .hero-content {
+    padding-top: 42px;
+  }
+
+  .hero-content > .logo,
+  .hero-content > .logo img {
+    width: 90px;
+    height: 46px;
+  }
+
+  .hero h1 {
+    font-size: clamp(44px, 6.2vw, 56px);
+    letter-spacing: -1.8px;
+  }
+
+  .hero-lead {
+    font-size: 22px;
+    line-height: 25px;
+  }
+
+  .hero-meta {
+    font-size: 17px;
+    line-height: 24px;
+  }
+
+  .work {
+    padding-top: 60px;
+  }
+
+  .work-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .work-card {
+    height: 480px;
+  }
+
+  .split,
+  .contact__inner {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .capabilities .split {
+    min-height: 0;
+  }
+
+  .film {
+    height: min(55vw, 458px);
+  }
+
+  .about {
+    grid-template-columns: minmax(240px, 42%) 1fr;
+    gap: 48px;
+  }
+
+  .contact__inner {
+    width: min(100% - 40px, 680px);
+  }
+}
