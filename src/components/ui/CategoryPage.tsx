@@ -75,34 +75,6 @@ const heroNames: Record<Category, string> = {
   lifestyle: "c4150",
 }
 
-const otherBlocks: Record<Exclude<Category, "fashion">, GalleryItem[][]> = {
-  jewellery: [[
-    { name: "d5370", area: "1 / 1 / 5 / 5" },
-    { name: "98fd8", area: "1 / 5 / 3 / 9" },
-    { name: "39a39", area: "1 / 9 / 5 / 13" },
-    { name: "b2ac7", area: "3 / 5 / 7 / 9" },
-    { name: "a05f7", area: "5 / 1 / 9 / 5" },
-    { name: "2a5ea", area: "5 / 9 / 9 / 13" },
-    { name: "7904d", area: "7 / 5 / 10 / 9" },
-  ]],
-  beauty: [[
-    { name: "592d7", area: "1 / 1 / 4 / 4" },
-    { name: "98fd8", area: "1 / 4 / 3 / 7" },
-    { name: "39a39", area: "1 / 7 / 4 / 11" },
-    { name: "b2ac7", area: "3 / 4 / 7 / 7" },
-    { name: "a05f7", area: "4 / 1 / 7 / 4" },
-    { name: "2a5ea", area: "4 / 7 / 7 / 11" },
-  ]],
-  lifestyle: [[
-    { name: "c4150", area: "1 / 1 / 5 / 7" },
-    { name: "98fd8", area: "1 / 7 / 4 / 12" },
-    { name: "39a39", area: "5 / 1 / 9 / 5" },
-    { name: "b2ac7", area: "4 / 7 / 8 / 12" },
-    { name: "a05f7", area: "8 / 5 / 11 / 12" },
-    { name: "7904d", area: "9 / 1 / 12 / 5" },
-  ]],
-}
-
 export function CategoryPage({ category }: { category: Category }) {
   const [selected, setSelected] = useState<number | null>(null)
   const [isMobileGallery, setIsMobileGallery] = useState(() =>
@@ -112,7 +84,7 @@ export function CategoryPage({ category }: { category: Category }) {
 
   const galleryBlocks = category === "fashion"
     ? fashionBlocks
-    : otherBlocks[category]
+    : []
   const placedItems = galleryBlocks.flat()
   const placedNames = new Set(placedItems.map((item) => item.name))
   const excludedFashionAssets = new Set(["a4d6e", "b2ac7", "b9e70"])

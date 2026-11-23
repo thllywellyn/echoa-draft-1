@@ -114,14 +114,16 @@
   cursor: zoom-in;
 }
 
-.category-gallery__block--auto {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  align-items: start;
+.category-gallery__block.category-gallery__block--auto {
+  display: block;
+  columns: 4;
+  column-gap: 0;
+  aspect-ratio: auto;
 }
 
 .category-gallery__item--auto {
   height: auto;
-  align-self: start;
+  break-inside: avoid;
 }
 
 .category-gallery__item:nth-child(7n + 1),
@@ -136,8 +138,8 @@
 }
 
 .category-gallery__block--auto > .category-gallery__item {
-  grid-column: auto;
-  grid-row: auto;
+  display: inline-block;
+  width: 100%;
 }
 
 .category-gallery__item img,
@@ -244,6 +246,10 @@
 }
 
 @media (max-width: 900px) {
+  .category-gallery__block--auto {
+    columns: 3;
+  }
+
   .category-hero {
     height: 62vw;
     min-height: 350px;
