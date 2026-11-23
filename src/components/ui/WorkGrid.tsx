@@ -1,5 +1,3 @@
-const ASSET_BASE = "/assets"
-
 export interface WorkItem {
   title: string
   image: string
@@ -19,7 +17,7 @@ export function WorkGrid({ items }: { items: WorkItem[] }) {
               aria-label={`View ${item.title} category`}
             >
           <img
-            src={`${ASSET_BASE}/${item.image}`}
+              src={item.image}
             alt={`${item.title} concept photography`}
             style={{ objectPosition: item.position }}
           />
@@ -32,7 +30,7 @@ export function WorkGrid({ items }: { items: WorkItem[] }) {
           ) : (
             <>
               <img
-                src={`${ASSET_BASE}/${item.image}`}
+                src={item.image}
                 alt={`${item.title} concept photography`}
                 style={{ objectPosition: item.position }}
               />

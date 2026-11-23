@@ -157,37 +157,12 @@ export function CategoryPage({ category }: { category: Category }) {
   }, [selected, gallery.length])
 
   const heroName = heroNames[category]
-  const mobileColumns: { item: GalleryItem; index: number }[][] = [[], []]
-  const mobileColumnHeights = [0, 0]
-  gallery.forEach((item, index) => {
-    const estimatedHeight = item.video
-      ? 16 / 9
-      : item.automatic
-        ? 1
-        : index % 7 === 0
-          ? 10 / 16
-          : index % 7 === 2 || index % 7 === 5
-            ? 5 / 4
-            : 1
-    const column = mobileColumnHeights[0] <= mobileColumnHeights[1] ? 0 : 1
-    mobileColumns[column].push({ item, index })
-    mobileColumnHeights[column] += estimatedHeight
-  })
-
-  const renderGalleryItem = (item: GalleryItem, index: number, mobile: boolean) => {
-    const mobileShape = item.video || item.automatic
-      ? ""
-      : index % 7 === 0
-        ? " category-gallery__item--wide"
-        : index % 7 === 2 || index % 7 === 5
-          ? " category-gallery__item--portrait"
-          : " category-gallery__item--square"
-
+  const renderGalleryItem = (item: GalleryItem, index: number) => {
     return (
       <button
         type="button"
-        className={`category-gallery__item${item.video ? " category-gallery__item--video" : ""}${item.automatic ? " category-gallery__item--auto" : ""}${mobileShape}`}
-        style={!mobile && item.area ? { gridArea: item.area } : undefined}
+        className={`category-gallery__item${item.video ? " category-gallery__item--video" : ""}${item.automatic ? " category-gallery__item--auto" : ""}`}
+        style={item.area ? { gridArea: item.area } : undefined}
         key={`${item.name}-${index}`}
         onClick={() => setSelected(index)}
         aria-label={`View ${title} item ${index + 1}`}
@@ -196,7 +171,7 @@ export function CategoryPage({ category }: { category: Category }) {
           <video src={item.src ?? `${base}/${item.name}.mp4`} autoPlay muted loop playsInline preload="metadata" />
         ) : (
           <img
-            src={item.src ?? `${base}/${item.name}.png`}
+            src={item.src ?? `${base}/${item.name}.webp`}
             alt=""
             style={{ objectPosition: item.position ?? "center" }}
             loading={index > 10 ? "lazy" : "eager"}
@@ -212,9 +187,9 @@ export function CategoryPage({ category }: { category: Category }) {
       <Header />
       <section className={`category-hero category-hero--${category}`}>
         {category === "fashion" ? (
-          <img className="category-hero__fashion-image" src={`${base}/44632.png`} alt="" />
+          <img className="category-hero__fashion-image" src={`${base}/44632.webp`} alt="" />
         ) : (
-          <img src={`${base}/${heroName}.png`} alt="" />
+          <img src={`${base}/${heroName}.webp`} alt="" />
         )}
         <div className="category-hero__shade" />
         <h1>{title}</h1>
@@ -227,11 +202,11 @@ export function CategoryPage({ category }: { category: Category }) {
         </div>
         <div className={`category-gallery category-gallery--${category}`} aria-label={`${title} portfolio`}>
           {isMobileGallery
-            ? mobileColumns.map((column, columnIndex) => (
-                <div className="category-gallery__mobile-column" key={columnIndex}>
-                  {column.map(({ item, index }) => renderGalleryItem(item, index, true))}
+            ? (
+                <div className="category-gallery__mobile-masonry">
+                  {gallery.map((item, index) => renderGalleryItem(item, index))}
                 </div>
-              ))
+              )
             : renderedBlocks.map((block, blockIndex) => {
                 const blockStart = galleryBlocks
                   .slice(0, blockIndex)
@@ -242,7 +217,7 @@ export function CategoryPage({ category }: { category: Category }) {
                     key={blockIndex}
                   >
                     {block.map((item, itemIndex) =>
-                      renderGalleryItem(item, blockStart + itemIndex, false),
+                      renderGalleryItem(item, blockStart + itemIndex),
                     )}
                   </div>
                 )
@@ -266,7 +241,7 @@ export function CategoryPage({ category }: { category: Category }) {
           {gallery[selected].video ? (
             <video src={gallery[selected].src ?? `${base}/${gallery[selected].name}.mp4`} autoPlay muted loop controls />
           ) : (
-            <img src={gallery[selected].src ?? `${base}/${gallery[selected].name}.png`} alt={`${title} item ${selected + 1}`} />
+            <img src={gallery[selected].src ?? `${base}/${gallery[selected].name}.webp`} alt={`${title} item ${selected + 1}`} />
           )}
           <button
             className="category-lightbox__arrow category-lightbox__arrow--next"

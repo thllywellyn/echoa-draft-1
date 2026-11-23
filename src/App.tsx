@@ -11,10 +11,10 @@ import { useEffect, useState } from "react"
 const A = "/assets"
 
 const work = [
-  { title: "Fashion", image: "7904d.png", position: "center", href: "#/fashion" },
-  { title: "Jewellery", image: "d5370.png", position: "center top", href: "#/jewellery" },
-  { title: "Beauty", image: "592d7.png", position: "58% center", href: "#/beauty" },
-  { title: "Lifestyle", image: "c4150.png", position: "right center", href: "#/lifestyle" },
+  { title: "Fashion", image: "/category-assets/fashion/44632.webp", position: "center", href: "#/fashion" },
+  { title: "Jewellery", image: "/category-assets/jewellery/d5370.webp", position: "center", href: "#/jewellery" },
+  { title: "Beauty", image: "/category-assets/beauty/592d7.webp", position: "center", href: "#/beauty" },
+  { title: "Lifestyle", image: "/category-assets/lifestyle/c4150.webp", position: "center", href: "#/lifestyle" },
 ]
 
 const capabilities = [
@@ -111,7 +111,17 @@ export default function App() {
           A selection of visual worlds shaped with intention. Imagery shown is
           concept work pending approved client assets.
         </SectionIntro>
-        <WorkGrid items={work} />
+        <style>{`
+          .work-images-fill img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top;
+          }
+        `}</style>
+        <div className="work-images-fill">
+          <WorkGrid items={work} />
+        </div>
       </section>
 
       <section className="capabilities">
@@ -134,55 +144,24 @@ export default function App() {
         </div>
       </section>
 
-      <section className="point-of-view section-shell">
-        <div className="desktop-only">
-          <SectionIntro
-            eyebrow="Our point of view"
-            title={
-              <>
-                Attention is earned.
-                <br />
-                Recognition is built.
-              </>
-            }
-          >
-            Content is everywhere, but only thoughtful ideas leave a lasting
-            impression.
-            <br />
-            We create with purpose, helping brands become memorable.
-          </SectionIntro>
-        </div>
-        <div className="mobile-only">
-          <SectionIntro
-            eyebrow="The work."
-            title={
-              <>
-                Work that leaves
-                <br />
-                an impression.
-              </>
-            }
-          >
-            A selection of visual worlds shaped with intention. Imagery shown is
-            concept work pending approved client assets.
-          </SectionIntro>
-        </div>
+      <section className="point-of-view">
         <div className="film">
           <video
             autoPlay
-            controls
             loop
             muted
             playsInline
             preload="metadata"
             poster={`${A}/film-poster.svg`}
-            width={1920}
-            height={1080}
-            aria-label="Echoa showreel"
+            aria-hidden="true"
           >
             <source src={`${A}/film.mp4`} type="video/mp4" />
-            Your browser does not support HTML video.
           </video>
+          <h2 className="film__title">
+            Attention is earned.
+            <br />
+            Recognition is built.
+          </h2>
         </div>
       </section>
 

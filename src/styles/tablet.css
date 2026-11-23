@@ -107,10 +107,6 @@ Tablet styles (601px to 900px)
     min-height: 0;
   }
 
-  .film {
-    height: min(55vw, 458px);
-  }
-
   .about {
     grid-template-columns: minmax(240px, 42%) 1fr;
     gap: 48px;
