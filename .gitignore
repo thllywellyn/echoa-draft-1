@@ -1,6 +1,7 @@
 # Dependencies
 node_modules/
 fashion category/
+about page/
 
 # Production build output
 dist/

@@ -21,7 +21,7 @@ export function Footer() {
             <span className="footer-heading">Page</span>
             <a href="#work">Work</a>
             <a href="#services">Services</a>
-            <a href="#about">About</a>
+            <a href="#/about">About</a>
             <a href="#contact">Contact</a>
           </nav>
           <div className="footer-links">

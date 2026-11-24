@@ -7,8 +7,15 @@ import {
   WorkGrid,
 } from "./components/ui"
 import { useEffect, useState } from "react"
+import AboutPage from "./pages/AboutPage"
 
 const A = "/assets"
+const categories = ["fashion", "jewellery", "beauty", "lifestyle"] as const
+type Category = (typeof categories)[number]
+
+function isCategory(route: string): route is Category {
+  return categories.some((category) => category === route)
+}
 
 const work = [
   { title: "Fashion", image: "/category-assets/fashion/44632.webp", position: "center", href: "#/fashion" },
@@ -53,19 +60,37 @@ const services = [
 ]
 
 export default function App() {
-  const [category, setCategory] = useState(() => window.location.hash.replace("#/", "").split("/")[0])
+  const [route, setRoute] = useState(() =>
+    window.location.hash.startsWith("#/")
+      ? window.location.hash.slice(2).split("/")[0]
+      : "",
+  )
 
   useEffect(() => {
     const handleHashChange = () => {
-      setCategory(window.location.hash.replace("#/", "").split("/")[0])
-      window.scrollTo({ top: 0 })
+      const hash = window.location.hash
+      if (
+        route === "about" &&
+        !hash.startsWith("#/") &&
+        document.getElementById(hash.slice(1))
+      ) {
+        return
+      }
+
+      const nextRoute = hash.startsWith("#/") ? hash.slice(2).split("/")[0] : ""
+      setRoute(nextRoute)
+      if (nextRoute && nextRoute !== route) window.scrollTo({ top: 0 })
     }
     window.addEventListener("hashchange", handleHashChange)
     return () => window.removeEventListener("hashchange", handleHashChange)
-  }, [])
+  }, [route])
 
-  if (["fashion", "jewellery", "beauty", "lifestyle"].includes(category)) {
-    return <CategoryPage category={category as "fashion" | "jewellery" | "beauty" | "lifestyle"} />
+  if (route === "about") {
+    return <AboutPage />
+  }
+
+  if (isCategory(route)) {
+    return <CategoryPage category={route} />
   }
 
   return (
@@ -201,7 +226,7 @@ export default function App() {
             create considered content that helps brands communicate who they
             are, what they stand for and why they matter.
           </p>
-          <a className="text-link" href="#services">
+          <a className="text-link" href="#/about">
             About us <span>↗</span>
           </a>
         </div>

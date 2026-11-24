@@ -24,12 +24,16 @@ export function Header() {
         aria-label="Primary navigation"
       >
         {[
-          ["Home", "home"],
-          ["Work", "work"],
-          ["Services", "services"],
-          ["About", "about"],
-        ].map(([label, id]) => (
-          <a key={id} href={`#${id}`} onClick={() => setMenuOpen(false)}>
+          ["Home", "#home"],
+          ["Work", "#work"],
+          ["Services", "#services"],
+          ["About", "#/about"],
+        ].map(([label, href]) => (
+          <a
+            key={label}
+            href={href}
+            onClick={() => setMenuOpen(false)}
+          >
             {label}
           </a>
         ))}
