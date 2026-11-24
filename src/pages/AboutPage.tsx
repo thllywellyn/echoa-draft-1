@@ -40,13 +40,12 @@ export default function AboutPage() {
 
       <main id="top">
         <section className="hero" aria-label="ECHOA founders">
-          <img className="hero-layer hero-fashion" src={`${assets}/85bcc.png`} alt="" />
           <img className="hero-layer hero-image" src={`${assets}/43474.png`} alt="" />
-          <img
+          {/* <img
             className="hero-layer hero-portrait"
             src={`${assets}/44632.png`}
             alt="Two ECHOA founders wearing pink flowers"
-          />
+          /> */}
           <div className="hero-shade" />
         </section>
 

@@ -39,21 +39,8 @@
   }
 
   .hero-image {
-    height: 941px;
-    left: 50%;
-    object-fit: cover;
-    top: -72px;
-    transform: translateX(-50%);
-    width: 116.1%;
-  }
-
-  .hero-portrait {
-    height: 2853px;
-    left: 50%;
-    object-fit: fill;
-    top: -1816px;
-    transform: translateX(-50%);
-    width: 132.1%;
+    position: bottom;
+    max-width: 100%;
   }
 
   .hero-shade {
