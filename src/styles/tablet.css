@@ -89,11 +89,13 @@ Tablet styles (601px to 900px)
     padding-top: 60px;
   }
 
-  .work-grid {
-    grid-template-columns: 1fr 1fr;
+  .work-grid__group {
+    gap: 16px;
+    padding-right: 16px;
   }
 
   .work-card {
+    flex-basis: clamp(240px, 43vw, 320px);
     height: 480px;
   }
 

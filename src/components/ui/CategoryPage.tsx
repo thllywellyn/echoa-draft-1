@@ -2,77 +2,42 @@ import { useEffect, useState } from "react"
 import { Footer, Header } from "../layout"
 import { categoryAssets } from "virtual:category-gallery-assets"
 
-type Category = "fashion" | "jewellery" | "beauty" | "lifestyle"
+type Category =
+  | "fashion"
+  | "jewellery"
+  | "beauty"
+  | "lifestyle"
+  | "editorial"
+  | "product"
+  | "campaigns"
+
+type SourceCategory = "fashion" | "jewellery" | "beauty" | "lifestyle"
+
+const categorySources: Record<Category, SourceCategory> = {
+  fashion: "fashion",
+  jewellery: "jewellery",
+  beauty: "beauty",
+  lifestyle: "lifestyle",
+  editorial: "fashion",
+  product: "jewellery",
+  campaigns: "lifestyle",
+}
 
 type GalleryItem = {
   name: string
-  area?: string
   src?: string
-  position?: string
   video?: boolean
   automatic?: boolean
 }
-
-const fashionBlocks: GalleryItem[][] = [
-  [
-    { name: "cae9a", area: "1 / 1 / 2 / 21" },
-    { name: "118de", area: "1 / 21 / 2 / 41", position: "center 35%" },
-    { name: "d1197", area: "1 / 41 / 2 / 61" },
-    { name: "7904d", area: "1 / 61 / 2 / 81" },
-    { name: "da3c7", area: "1 / 81 / 2 / 100" },
-    { name: "9b7c0", area: "2 / 1 / 3 / 29", position: "center 42%" },
-    { name: "82a3a", area: "2 / 29 / 3 / 59", position: "center 32%" },
-    { name: "6d8df", area: "2 / 59 / 3 / 100", position: "center 30%" },
-    { name: "sitaar-and-saree", area: "1 / 100 / 3 / 131", video: true },
-  ],
-  [
-    { name: "41d57", area: "1 / 1 / 2 / 30", position: "center 38%" },
-    { name: "hargunz", area: "1 / 30 / 3 / 61", video: true },
-    { name: "b1a31", area: "1 / 61 / 2 / 89" },
-    { name: "0b292", area: "1 / 89 / 2 / 131", position: "center 35%" },
-    { name: "34663", area: "2 / 1 / 3 / 30" },
-    { name: "099d0", area: "2 / 61 / 3 / 99", position: "center 35%" },
-    { name: "44632", area: "2 / 99 / 3 / 131", position: "center 22%" },
-  ],
-  [
-    { name: "81ffc", area: "1 / 1 / 2 / 25" },
-    { name: "dress", area: "1 / 25 / 3 / 56", video: true },
-    { name: "877b6", area: "1 / 56 / 2 / 79" },
-    { name: "7b9a0", area: "1 / 79 / 2 / 105", position: "center 35%" },
-    { name: "f3bfe", area: "1 / 105 / 2 / 131" },
-    { name: "572b3", area: "2 / 1 / 3 / 25" },
-    { name: "cc1f2", area: "2 / 56 / 3 / 79" },
-    { name: "b57c0", area: "2 / 79 / 3 / 101" },
-    { name: "8ff5d", area: "2 / 101 / 3 / 131", position: "center 26%" },
-  ],
-  [
-    { name: "saint-black", area: "1 / 1 / 3 / 32", video: true },
-    { name: "44f58", area: "1 / 32 / 2 / 52" },
-    { name: "f5ef3", area: "1 / 52 / 2 / 72" },
-    { name: "dc220", area: "1 / 72 / 2 / 92" },
-    { name: "83616", area: "1 / 92 / 2 / 112" },
-    { name: "2a831", area: "1 / 112 / 2 / 131", position: "center 30%" },
-    { name: "eee8f", area: "2 / 32 / 3 / 60", position: "center 35%" },
-    { name: "046c5", area: "2 / 60 / 3 / 90" },
-    { name: "3cf04", area: "2 / 90 / 3 / 131", position: "center 28%" },
-  ],
-  [
-    { name: "0b8c3", area: "1 / 1 / 2 / 27", position: "center 38%" },
-    { name: "42381", area: "1 / 27 / 3 / 53", position: "center 30%" },
-    { name: "cb400", area: "1 / 53 / 2 / 79" },
-    { name: "937ac", area: "1 / 79 / 2 / 105", position: "center 34%" },
-    { name: "359f1", area: "1 / 105 / 2 / 131" },
-    { name: "7d42f", area: "2 / 1 / 3 / 27" },
-    { name: "07d94", area: "2 / 53 / 3 / 85", position: "center 35%" },
-    { name: "c88bd", area: "2 / 85 / 3 / 131", position: "center 32%" },
-  ],
-]
 
 const heroNames: Record<Category, string> = {
   fashion: "44632",
   jewellery: "d5370",
   beauty: "592d7",
   lifestyle: "c4150",
+  editorial: "118de",
+  product: "IMG_0455",
+  campaigns: "64F4EE33-ED62-4124-B90F-47D466AB4784_L0_001-26_8_2026, 7_03_21 AM",
 }
 
 export function CategoryPage({ category }: { category: Category }) {
@@ -81,30 +46,23 @@ export function CategoryPage({ category }: { category: Category }) {
     window.matchMedia("(max-width: 560px)").matches,
   )
   const title = category[0].toUpperCase() + category.slice(1)
+  const sourceCategory = categorySources[category]
+  const galleryLayoutCategory =
+    category === "editorial" || category === "product" || category === "campaigns"
+      ? "jewellery"
+      : category
 
-  const galleryBlocks = category === "fashion"
-    ? fashionBlocks
-    : []
-  const placedItems = galleryBlocks.flat()
-  const placedNames = new Set(placedItems.map((item) => item.name))
   const excludedFashionAssets = new Set(["a4d6e", "b2ac7", "b9e70"])
-  const automaticItems: GalleryItem[] = categoryAssets[category]
-    .filter((asset) =>
-      !placedNames.has(asset.name) &&
-      !(category === "fashion" && excludedFashionAssets.has(asset.name)),
-    )
+  const gallery: GalleryItem[] = categoryAssets[sourceCategory]
+    .filter((asset) => !(category === "fashion" && excludedFashionAssets.has(asset.name)))
     .map((asset) => ({
       name: asset.name,
       src: asset.src,
       video: asset.video,
       automatic: true,
     }))
-  const renderedBlocks = automaticItems.length > 0
-    ? [...galleryBlocks, automaticItems]
-    : galleryBlocks
-  const gallery = [...placedItems, ...automaticItems]
 
-  const base = `/category-assets/${category}`
+  const base = `/category-assets/${sourceCategory}`
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 560px)")
@@ -134,7 +92,6 @@ export function CategoryPage({ category }: { category: Category }) {
       <button
         type="button"
         className={`category-gallery__item${item.video ? " category-gallery__item--video" : ""}${item.automatic ? " category-gallery__item--auto" : ""}`}
-        style={item.area ? { gridArea: item.area } : undefined}
         key={`${item.name}-${index}`}
         onClick={() => setSelected(index)}
         aria-label={`View ${title} item ${index + 1}`}
@@ -145,7 +102,6 @@ export function CategoryPage({ category }: { category: Category }) {
           <img
             src={item.src ?? `${base}/${item.name}.webp`}
             alt=""
-            style={{ objectPosition: item.position ?? "center" }}
             loading={index > 10 ? "lazy" : "eager"}
           />
         )}
@@ -172,28 +128,18 @@ export function CategoryPage({ category }: { category: Category }) {
           <p>The work.</p>
           <h2>Work that leaves<br />an impression.</h2>
         </div>
-        <div className={`category-gallery category-gallery--${category}`} aria-label={`${title} portfolio`}>
+        <div className={`category-gallery category-gallery--${galleryLayoutCategory}`} aria-label={`${title} portfolio`}>
           {isMobileGallery
             ? (
                 <div className="category-gallery__mobile-masonry">
                   {gallery.map((item, index) => renderGalleryItem(item, index))}
                 </div>
               )
-            : renderedBlocks.map((block, blockIndex) => {
-                const blockStart = galleryBlocks
-                  .slice(0, blockIndex)
-                  .reduce((total, currentBlock) => total + currentBlock.length, 0)
-                return (
-                  <div
-                    className={`category-gallery__block${blockIndex >= galleryBlocks.length ? " category-gallery__block--auto" : ""}`}
-                    key={blockIndex}
-                  >
-                    {block.map((item, itemIndex) =>
-                      renderGalleryItem(item, blockStart + itemIndex),
-                    )}
-                  </div>
-                )
-              })}
+            : (
+                <div className="category-gallery__block category-gallery__block--auto">
+                  {gallery.map((item, index) => renderGalleryItem(item, index))}
+                </div>
+              )}
         </div>
       </section>
 

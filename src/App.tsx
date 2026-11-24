@@ -10,7 +10,15 @@ import { useEffect, useState } from "react"
 import AboutPage from "./pages/AboutPage"
 
 const A = "/assets"
-const categories = ["fashion", "jewellery", "beauty", "lifestyle"] as const
+const categories = [
+  "fashion",
+  "jewellery",
+  "beauty",
+  "lifestyle",
+  "editorial",
+  "product",
+  "campaigns",
+] as const
 type Category = (typeof categories)[number]
 
 function isCategory(route: string): route is Category {
@@ -22,6 +30,9 @@ const work = [
   { title: "Jewellery", image: "/category-assets/jewellery/d5370.webp", position: "center", href: "#/jewellery" },
   { title: "Beauty", image: "/category-assets/beauty/592d7.webp", position: "center", href: "#/beauty" },
   { title: "Lifestyle", image: "/category-assets/lifestyle/c4150.webp", position: "center", href: "#/lifestyle" },
+  { title: "Editorial", image: "/category-assets/fashion/118de.webp", position: "center", href: "#/editorial" },
+  { title: "Product", image: "/category-assets/jewellery/IMG_0455.webp", position: "center", href: "#/product" },
+  { title: "Campaigns", image: "/category-assets/lifestyle/64F4EE33-ED62-4124-B90F-47D466AB4784_L0_001-26_8_2026, 7_03_21 AM.webp", position: "center", href: "#/campaigns" },
 ]
 
 const capabilities = [
@@ -136,17 +147,7 @@ export default function App() {
           A selection of visual worlds shaped with intention. Imagery shown is
           concept work pending approved client assets.
         </SectionIntro>
-        <style>{`
-          .work-images-fill img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: top;
-          }
-        `}</style>
-        <div className="work-images-fill">
-          <WorkGrid items={work} />
-        </div>
+        <WorkGrid items={work} />
       </section>
 
       <section className="capabilities">
