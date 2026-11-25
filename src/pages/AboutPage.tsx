@@ -5,7 +5,7 @@ import "./AboutPage.css"
 const assets = "/assets"
 
 const stats = [
-  ["04", "Categories: fashion, jewellery, beauty, lifestyle"],
+  ["04", "Categories: fashion, jewellery, beauty, home and living"],
   ["04", "Stages from first idea to finished asset"],
   ["02", "Founders leading every project"],
   ["01", "Belief: be remembered, not just seen"],
@@ -27,7 +27,7 @@ const steps = [
   ],
 ]
 
-const disciplines = ["Fashion", "Jewellery", "Beauty", "Lifestyle"]
+const disciplines = ["Fashion", "Jewellery", "Beauty", "Home and Living"]
 
 function Arrow() {
   return <span aria-hidden="true">↗</span>
@@ -54,10 +54,10 @@ export default function AboutPage() {
             <p>We create content that gives brands a presence.</p>
           </div>
           <p className="intro-copy">
-            ECHOA is a brand content company working with fashion, jewellery, beauty and lifestyle
-            brands. We bring together strategy, creative direction and production to create
-            considered content that helps brands communicate who they are, what they stand for and
-            why they matter.
+            ECHOA is a brand content company working with brands in fashion, jewellery, beauty, and
+            the home and living space. We bring together strategy, creative direction and
+            production to create considered content that helps brands communicate who they are,
+            what they stand for and why they matter.
           </p>
         </section>
 

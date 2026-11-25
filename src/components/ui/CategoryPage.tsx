@@ -68,7 +68,7 @@ export function CategoryPage({
     fashion: "Fashion",
     jewellery: "Jewellery",
     beauty: "Beauty",
-    lifestyle: "Lifestyle",
+    lifestyle: "Home and Living",
     accessories: "Accessories",
     "food-and-beverages": "Food and Beverages",
     "pet-care": "Pet Care",

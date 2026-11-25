@@ -55,7 +55,7 @@ const work = [
     href: "#/beauty",
   },
   {
-    title: "Lifestyle",
+    title: "Home and Living",
     image: categoryImages.lifestyle,
     position: "center",
     href: "#/lifestyle",
@@ -267,8 +267,8 @@ export default function App() {
           <p className="eyebrow">About the ECHOA</p>
           <h2>We create content that gives brands a presence.</h2>
           <p className="description">
-            ECHOA is a brand content company working with fashion, jewellery,
-            beauty and lifestyle brands.
+            ECHOA creates content for fashion, jewellery, beauty, and home and
+            living brands.
             <br />
             We bring together strategy, creative direction and production to
             create considered content that helps brands communicate who they
