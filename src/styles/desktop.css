@@ -69,6 +69,16 @@ Desktop styles (901px and above)
 
 .menu-button {
   display: none;
+  color: #000;
+  border: 0;
+  background: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.menu-button .menu-icon {
+  color: #000;
+  stroke: #000;
 }
 
 .mobile-only,
@@ -211,14 +221,20 @@ Desktop styles (901px and above)
   padding-block: 80px 50px;
 }
 
+.work-carousel-shell {
+  width: 100%;
+  margin-top: 32px;
+}
+
 .work-carousel {
   position: relative;
   width: 100%;
-  margin-top: 32px;
-  overflow-x: hidden;
+  overflow-x: auto;
   overflow-y: hidden;
+  overscroll-behavior-x: contain;
   scrollbar-width: none;
-  touch-action: pan-y;
+  touch-action: pan-x pan-y;
+  -webkit-overflow-scrolling: touch;
 }
 
 .work-carousel::-webkit-scrollbar {
@@ -228,17 +244,21 @@ Desktop styles (901px and above)
 .work-grid {
   display: flex;
   width: max-content;
-  will-change: transform;
+  flex-wrap: nowrap;
 }
 
 .work-grid__group {
   display: flex;
+  flex: 0 0 auto;
+  width: max-content;
+  flex-wrap: nowrap;
   gap: 21px;
   padding-right: 21px;
 }
 
 .work-carousel__controls {
-  position: sticky;
+  position: relative;
+  top: -255px;
   left: 0;
   width: 100%;
   height: 0;
@@ -247,8 +267,7 @@ Desktop styles (901px and above)
   justify-content: space-between;
   padding-inline: 16px;
   pointer-events: none;
-  z-index: 2;
-  transform: translateY(-255px);
+  z-index: 5;
 }
 
 .work-carousel__button {
@@ -277,8 +296,8 @@ Desktop styles (901px and above)
   stroke-linejoin: round;
 }
 
-.work-carousel:hover .work-carousel__button,
-.work-carousel:focus-within .work-carousel__button {
+.work-carousel-shell:hover .work-carousel__button,
+.work-carousel-shell:focus-within .work-carousel__button {
   opacity: 1;
   pointer-events: auto;
 }
@@ -293,7 +312,8 @@ Desktop styles (901px and above)
 }
 
 .work-card {
-  flex: 0 0 clamp(260px, 23vw, 300px);
+  flex: 0 0 auto;
+  width: clamp(260px, 23vw, 300px);
   height: 510px;
   position: relative;
   overflow: hidden;
@@ -312,6 +332,8 @@ Desktop styles (901px and above)
   width: 100%;
   height: 100%;
   object-fit: cover;
+  -webkit-user-drag: none;
+  user-select: none;
   transition: transform .7s cubic-bezier(.2, .7, .2, 1);
 }
 
@@ -368,10 +390,6 @@ Desktop styles (901px and above)
   .work-carousel__button {
     transition: none;
   }
-}
-
-.work-grid__group {
-  flex-shrink: 0;
 }
 
 .work-card:focus-within {

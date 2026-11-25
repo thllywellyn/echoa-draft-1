@@ -91,7 +91,7 @@ Tablet styles (601px to 900px)
 
   .work-carousel__controls {
     padding-inline: 12px;
-    transform: translateY(-160px);
+    top: -160px;
   }
 
   .work-carousel__button {
@@ -107,7 +107,7 @@ Tablet styles (601px to 900px)
   }
 
   .work-card {
-    flex-basis: clamp(240px, 43vw, 320px);
+    width: clamp(240px, 43vw, 320px);
     height: 320px;
   }
 

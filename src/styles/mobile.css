@@ -115,12 +115,12 @@ Mobile styles (600px and below)
     padding-block: 60px 56px;
   }
 
-  .work-carousel {
+  .work-carousel-shell {
     margin-top: 26px;
   }
 
   .work-carousel__controls {
-    transform: translateY(-180px);
+    top: -180px;
   }
 
   .work-grid__group {
@@ -129,7 +129,7 @@ Mobile styles (600px and below)
   }
 
   .work-card {
-    flex-basis: 74vw;
+    width: 74vw;
     min-width: 0;
     height: 360px;
     background: #ddd;
@@ -194,7 +194,7 @@ Mobile styles (600px and below)
   }
 
   .film__title {
-    font-size: clamp(28px, 7vw, 36px);
+    font-size: clamp(20px, 7vw, 24px);
   }
 
   .belief {

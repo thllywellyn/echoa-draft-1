@@ -1,10 +1,5 @@
-import {
-  useCallback,
-  useEffect,
-  useRef,
-  type MouseEvent as ReactMouseEvent,
-  type PointerEvent as ReactPointerEvent,
-} from "react"
+
+import { useEffect, useRef, useCallback } from "react"
 
 export interface WorkItem {
   title: string
@@ -13,155 +8,200 @@ export interface WorkItem {
   href?: string
 }
 
-type DragState = {
-  pointerId: number
-  startX: number
-  startOffset: number
-  moved: boolean
-}
-
 export function WorkGrid({ items }: { items: WorkItem[] }) {
   const carouselRef = useRef<HTMLDivElement>(null)
-  const trackRef = useRef<HTMLDivElement>(null)
-  const offsetRef = useRef(0)
-  const dragRef = useRef<DragState | null>(null)
-  const suppressClickUntilRef = useRef(0)
+  const isPointerDownRef = useRef(false)
+  const pauseUntilRef = useRef(0)
+  const loopWidthRef = useRef(0)
+  const animationFrameRef = useRef<number>(0)
 
   const getLoopWidth = useCallback(() => {
-    const group = carouselRef.current?.querySelector<HTMLElement>(".work-grid__group")
-    return group?.getBoundingClientRect().width ?? 0
+    const carousel = carouselRef.current
+    const group = carousel?.querySelector<HTMLElement>(
+      ".work-grid__group"
+    )
+
+    if (!carousel || !group) return 0
+
+    return group.offsetWidth
   }, [])
 
-  const applyOffset = useCallback(
-    (nextOffset: number) => {
-      const track = trackRef.current
-      const loopWidth = getLoopWidth()
-      if (!track || loopWidth <= 0) return
+  const normalizePosition = useCallback(() => {
+    const carousel = carouselRef.current
+    const width = loopWidthRef.current
 
-      const offset = ((nextOffset % loopWidth) + loopWidth) % loopWidth
-      offsetRef.current = offset
-      track.style.transform = `translate3d(${-offset}px, 0, 0)`
-    },
-    [getLoopWidth],
-  )
+    if (!carousel || width <= 0) return
+
+    const left = carousel.scrollLeft
+
+    // Keep the carousel inside the middle copy.
+    if (left < width) {
+      carousel.scrollLeft = left + width
+    } else if (left >= width * 2) {
+      carousel.scrollLeft = left - width
+    }
+  }, [])
 
   useEffect(() => {
     const carousel = carouselRef.current
-    if (!carousel || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      return
+    if (!carousel || items.length === 0) return
+
+    let destroyed = false
+    let previousTime = 0
+
+    const updateDimensions = () => {
+      const width = getLoopWidth()
+
+      if (width <= 0) return
+
+      loopWidthRef.current = width
+
+      // Start at the second copy.
+      carousel.scrollLeft = width
     }
 
-    let previousTime: number | null = null
-    let frame = 0
-    const animate = (time: number) => {
-      const loopWidth = getLoopWidth()
-      if (previousTime !== null && loopWidth > 0) {
-        const elapsed = Math.min(time - previousTime, 50)
-        const isPaused =
-          carousel.matches(":hover") ||
-          carousel.querySelector(":focus-visible") !== null ||
-          dragRef.current !== null
+    updateDimensions()
 
-        if (!isPaused) {
-          applyOffset(offsetRef.current + (elapsed * loopWidth) / 36000)
+    const resizeObserver = new ResizeObserver(() => {
+      updateDimensions()
+    })
+
+    resizeObserver.observe(carousel)
+
+    const group = carousel.querySelector(".work-grid__group")
+    if (group) resizeObserver.observe(group)
+
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    )
+
+    if (reducedMotion.matches) {
+      return () => resizeObserver.disconnect()
+    }
+
+    const hoverCapability = window.matchMedia("(hover: hover)")
+
+    const animate = (time: number) => {
+      if (destroyed) return
+
+      if (previousTime !== 0) {
+        const elapsed = Math.min(time - previousTime, 50)
+
+        const isPaused =
+          (hoverCapability.matches && carousel.matches(":hover")) ||
+          carousel.parentElement?.querySelector(":focus-visible") !== null ||
+          isPointerDownRef.current ||
+          time < pauseUntilRef.current
+
+        const width = loopWidthRef.current
+
+        if (!isPaused && width > 0) {
+          const speed = width / 36000
+
+          carousel.scrollLeft += elapsed * speed
+
+          normalizePosition()
         }
       }
 
       previousTime = time
-      frame = window.requestAnimationFrame(animate)
+      animationFrameRef.current =
+        window.requestAnimationFrame(animate)
     }
 
-    frame = window.requestAnimationFrame(animate)
-    return () => window.cancelAnimationFrame(frame)
-  }, [applyOffset, getLoopWidth])
+    animationFrameRef.current =
+      window.requestAnimationFrame(animate)
+
+    return () => {
+      destroyed = true
+      resizeObserver.disconnect()
+      window.cancelAnimationFrame(animationFrameRef.current)
+    }
+  }, [items.length, getLoopWidth, normalizePosition])
 
   const moveCarousel = (direction: -1 | 1) => {
     const carousel = carouselRef.current
-    const group = carousel?.querySelector<HTMLElement>(".work-grid__group")
-    const firstCard = group?.querySelector<HTMLElement>(".work-card")
-    const secondCard = firstCard?.nextElementSibling
-    if (!carousel || !group || !firstCard) return
 
-    const step = secondCard instanceof HTMLElement
+    if (!carousel) return
+
+    const group = carousel.querySelector<HTMLElement>(
+      ".work-grid__group"
+    )
+
+    const firstCard = group?.querySelector<HTMLElement>(
+      ".work-card"
+    )
+
+    const secondCard = firstCard?.nextElementSibling as
+      | HTMLElement
+      | null
+
+    if (!group || !firstCard) return
+
+    const width = loopWidthRef.current
+
+    if (width <= 0) return
+
+    const step = secondCard
       ? secondCard.offsetLeft - firstCard.offsetLeft
-      : firstCard.getBoundingClientRect().width
-    applyOffset(offsetRef.current + direction * step)
+      : firstCard.offsetWidth
+
+    const currentPosition =
+      carousel.scrollLeft - width
+
+    const nextPosition =
+      width +
+      currentPosition +
+      direction * step
+
+    pauseUntilRef.current = performance.now() + 1200
+
+    carousel.scrollTo({
+      left: nextPosition,
+      behavior: window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches
+        ? "auto"
+        : "smooth",
+    })
   }
 
-  const handlePointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
-    if (
-      (event.pointerType === "mouse" && event.button !== 0) ||
-      (event.target instanceof Element && event.target.closest("button"))
-    ) {
-      return
-    }
-
-    dragRef.current = {
-      pointerId: event.pointerId,
-      startX: event.clientX,
-      startOffset: offsetRef.current,
-      moved: false,
-    }
+  const handlePointerDown = () => {
+    isPointerDownRef.current = true
   }
 
-  const handlePointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
-    const drag = dragRef.current
-    if (!drag || drag.pointerId !== event.pointerId) return
-
-    const deltaX = event.clientX - drag.startX
-    if (!drag.moved && Math.abs(deltaX) < 5) return
-
-    drag.moved = true
-    if (!event.currentTarget.hasPointerCapture(event.pointerId)) {
-      event.currentTarget.setPointerCapture(event.pointerId)
-    }
-    event.preventDefault()
-    applyOffset(drag.startOffset - deltaX)
+  const handlePointerUp = () => {
+    isPointerDownRef.current = false
+    pauseUntilRef.current = performance.now() + 1200
   }
 
-  const handlePointerUp = (event: ReactPointerEvent<HTMLDivElement>) => {
-    const drag = dragRef.current
-    if (!drag || drag.pointerId !== event.pointerId) return
-
-    if (drag.moved) {
-      suppressClickUntilRef.current = performance.now() + 300
-    }
-    dragRef.current = null
-    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
-      event.currentTarget.releasePointerCapture(event.pointerId)
-    }
-  }
-
-  const handleClickCapture = (event: ReactMouseEvent<HTMLDivElement>) => {
-    if (performance.now() >= suppressClickUntilRef.current) return
-
-    event.preventDefault()
-    event.stopPropagation()
-    suppressClickUntilRef.current = 0
-  }
-
-  const renderItems = (isDuplicate: boolean) =>
+  const renderItems = (duplicate: boolean) =>
     items.map((item, index) => (
       <article
         className="work-card"
-        key={item.title}
-        aria-hidden={isDuplicate || undefined}
+        key={`${duplicate ? "duplicate" : "original"}-${item.title}-${index}`}
+        aria-hidden={duplicate || undefined}
       >
         {item.href ? (
           <a
             className="work-card__link"
             href={item.href}
             aria-label={`View ${item.title} category`}
-            tabIndex={isDuplicate ? -1 : undefined}
+            tabIndex={duplicate ? -1 : undefined}
           >
             <img
               src={item.image}
               alt={`${item.title} concept photography`}
               style={{ objectPosition: item.position }}
+              draggable={false}
             />
+
             <div className="work-card__shade" />
+
             <div className="work-card__label">
-              <span>{String(index + 1).padStart(2, "0")}</span>
+              <span>
+                {String(index + 1).padStart(2, "0")}
+              </span>
               <h3>{item.title}</h3>
             </div>
           </a>
@@ -171,10 +211,15 @@ export function WorkGrid({ items }: { items: WorkItem[] }) {
               src={item.image}
               alt={`${item.title} concept photography`}
               style={{ objectPosition: item.position }}
+              draggable={false}
             />
+
             <div className="work-card__shade" />
+
             <div className="work-card__label">
-              <span>{String(index + 1).padStart(2, "0")}</span>
+              <span>
+                {String(index + 1).padStart(2, "0")}
+              </span>
               <h3>{item.title}</h3>
             </div>
           </>
@@ -183,21 +228,32 @@ export function WorkGrid({ items }: { items: WorkItem[] }) {
     ))
 
   return (
-    <div
-      className="work-carousel"
-      role="region"
-      aria-label="Work categories"
-      ref={carouselRef}
-      onPointerDown={handlePointerDown}
-      onPointerMove={handlePointerMove}
-      onPointerUp={handlePointerUp}
-      onPointerCancel={handlePointerUp}
-      onClickCapture={handleClickCapture}
-    >
-      <div className="work-grid" ref={trackRef}>
-        <div className="work-grid__group">{renderItems(false)}</div>
-        <div className="work-grid__group">{renderItems(true)}</div>
+    <div className="work-carousel-shell">
+      <div
+        className="work-carousel"
+        role="region"
+        aria-label="Work categories"
+        ref={carouselRef}
+        onPointerDown={handlePointerDown}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={handlePointerUp}
+        onScroll={normalizePosition}
+      >
+        <div className="work-grid">
+          <div className="work-grid__group" aria-hidden="true">
+            {renderItems(true)}
+          </div>
+
+          <div className="work-grid__group">
+            {renderItems(false)}
+          </div>
+
+          <div className="work-grid__group" aria-hidden="true">
+            {renderItems(true)}
+          </div>
+        </div>
       </div>
+
       <div className="work-carousel__controls">
         <button
           type="button"
@@ -209,6 +265,7 @@ export function WorkGrid({ items }: { items: WorkItem[] }) {
             <path d="m15 18-6-6 6-6" />
           </svg>
         </button>
+
         <button
           type="button"
           className="work-carousel__button"
