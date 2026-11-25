@@ -6,7 +6,13 @@ declare module 'virtual:category-gallery-assets' {
   }
 
   export const categoryAssets: Record<
-    'fashion' | 'jewellery' | 'beauty' | 'lifestyle',
+    | 'fashion'
+    | 'jewellery'
+    | 'beauty'
+    | 'lifestyle'
+    | 'accessories'
+    | 'food-and-beverages'
+    | 'pet-care',
     CategoryAsset[]
   >
 }

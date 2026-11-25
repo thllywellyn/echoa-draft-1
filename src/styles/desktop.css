@@ -330,10 +330,16 @@ Desktop styles (901px and above)
   left: 20px;
   right: 20px;
   bottom: 20px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: stretch;
+  gap: 4px;
   transition: transform .35s ease;
+}
+
+.work-card__label span,
+.work-card__label h3 {
+  text-align: left;
 }
 
 .work-card:hover .work-card__label,
@@ -416,14 +422,14 @@ Desktop styles (901px and above)
   letter-spacing: -1.296px;
 }
 
-.accordion__item button img {
+.accordion__item button .accordion-icon {
   width: 28px;
   height: 28px;
   flex: 0 0 auto;
   transition: transform .25s ease;
 }
 
-.accordion__item.is-open button img {
+.accordion__item.is-open button .accordion-icon {
   transform: rotate(45deg);
 }
 

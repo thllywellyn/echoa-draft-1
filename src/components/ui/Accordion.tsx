@@ -1,6 +1,5 @@
 import { useState } from "react"
-
-const ASSET_BASE = "/assets"
+import { Plus } from "lucide-react"
 
 export function Accordion({
   items,
@@ -26,9 +25,10 @@ export function Accordion({
               onClick={() => setOpen(isOpen ? null : index)}
             >
               <span>{title}</span>
-              <img
-                src={`${ASSET_BASE}/${light ? "cae3f.svg" : "a2430.svg"}`}
-                alt=""
+              <Plus
+                className="accordion-icon"
+                size={28}
+                aria-hidden="true"
               />
             </button>
             <div className="accordion__answer" aria-hidden={!isOpen}>

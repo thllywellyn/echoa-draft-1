@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { Menu, X } from "lucide-react"
 
 const ASSET_BASE = "/assets"
 
@@ -8,16 +9,20 @@ export function Header() {
   return (
     <header className="site-header">
       <a href="#home" className="logo" aria-label="Echoa home">
-        <img src={`${ASSET_BASE}/b9e70.png`} alt="Echoa" />
+        <img src={`${ASSET_BASE}/echoa_red.webp`} alt="Echoa" />
       </a>
       <button
         className="menu-button"
         type="button"
-        aria-label="Toggle navigation"
+        aria-label={menuOpen ? "Close navigation" : "Open navigation"}
         aria-expanded={menuOpen}
         onClick={() => setMenuOpen(!menuOpen)}
       >
-        <img src={`${ASSET_BASE}/fb9db.svg`} alt="" />
+        {menuOpen ? (
+          <X className="menu-icon" size={24} aria-hidden="true" />
+        ) : (
+          <Menu className="menu-icon" size={24} aria-hidden="true" />
+        )}
       </button>
       <nav
         className={menuOpen ? "is-open" : ""}

@@ -8,7 +8,15 @@ export function ContactForm() {
       `Project enquiry from ${form.get("name")} — ${form.get("company")}`,
     )
     const body = encodeURIComponent(
-      `Name: ${form.get("name")}\nBrand / Company: ${form.get("company")}\nMobile: ${form.get("mobile")}\nEmail: ${form.get("email")}\nProject type: ${form.get("type")}\n\n${form.get("message")}`,
+      [
+        `Name: ${form.get("name")}`,
+        `Brand / Company: ${form.get("company")}`,
+        `Mobile: ${form.get("mobile")}`,
+        `Email: ${form.get("email")}`,
+        `Project type: ${form.get("type")}`,
+        "",
+        form.get("message"),
+      ].join("\n"),
     )
     window.location.href = `mailto:hello@echoa.in?subject=${subject}&body=${body}`
   }

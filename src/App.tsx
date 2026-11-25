@@ -15,24 +15,69 @@ const categories = [
   "jewellery",
   "beauty",
   "lifestyle",
-  "editorial",
-  "product",
-  "campaigns",
+  "accessories",
+  "food-and-beverages",
+  "pet-care",
 ] as const
 type Category = (typeof categories)[number]
+
+const categoryImages: Record<Category, string> = {
+  fashion: "/assets/categories/fashion.webp",
+  jewellery: "/assets/categories/jewellery.webp",
+  beauty: "/assets/categories/beauty.webp",
+  lifestyle: "/assets/categories/lifestyle.webp",
+  accessories: "/assets/categories/accessories.webp",
+  "food-and-beverages": "/assets/categories/food-and-beverages.webp",
+  "pet-care": "/assets/categories/pet-care.webp",
+}
 
 function isCategory(route: string): route is Category {
   return categories.some((category) => category === route)
 }
 
 const work = [
-  { title: "Fashion", image: "/category-assets/fashion/44632.webp", position: "center", href: "#/fashion" },
-  { title: "Jewellery", image: "/category-assets/jewellery/d5370.webp", position: "center", href: "#/jewellery" },
-  { title: "Beauty", image: "/category-assets/beauty/592d7.webp", position: "center", href: "#/beauty" },
-  { title: "Lifestyle", image: "/category-assets/lifestyle/c4150.webp", position: "center", href: "#/lifestyle" },
-  { title: "Editorial", image: "/category-assets/fashion/118de.webp", position: "center", href: "#/editorial" },
-  { title: "Product", image: "/category-assets/jewellery/IMG_0455.webp", position: "center", href: "#/product" },
-  { title: "Campaigns", image: "/category-assets/lifestyle/64F4EE33-ED62-4124-B90F-47D466AB4784_L0_001-26_8_2026, 7_03_21 AM.webp", position: "center", href: "#/campaigns" },
+  {
+    title: "Fashion",
+    image: categoryImages.fashion,
+    position: "center",
+    href: "#/fashion",
+  },
+  {
+    title: "Jewellery",
+    image: categoryImages.jewellery,
+    position: "center",
+    href: "#/jewellery",
+  },
+  {
+    title: "Beauty",
+    image: categoryImages.beauty,
+    position: "center",
+    href: "#/beauty",
+  },
+  {
+    title: "Lifestyle",
+    image: categoryImages.lifestyle,
+    position: "center",
+    href: "#/lifestyle",
+  },
+  {
+    title: "Accessories",
+    image: categoryImages.accessories,
+    position: "center",
+    href: "#/accessories",
+  },
+  {
+    title: "Food and Beverages",
+    image: categoryImages["food-and-beverages"],
+    position: "center",
+    href: "#/food-and-beverages",
+  },
+  {
+    title: "Pet Care",
+    image: categoryImages["pet-care"],
+    position: "center",
+    href: "#/pet-care",
+  },
 ]
 
 const capabilities = [
@@ -101,7 +146,7 @@ export default function App() {
   }
 
   if (isCategory(route)) {
-    return <CategoryPage key={route} category={route} />
+    return <CategoryPage key={route} category={route} heroImage={categoryImages[route]} />
   }
 
   return (
@@ -109,10 +154,10 @@ export default function App() {
       <Header />
 
       <section className="hero" id="home">
-        <img className="hero-ripple" src={`${A}/0bf8e.png`} alt="" />
+        <img className="hero-ripple" src={`${A}/0bf8e.webp`} alt="" />
         <div className="section-shell hero-content">
           <a href="#home" className="logo" aria-label="Echoa home">
-            <img src={`${A}/b9e70.png`} alt="Echoa" />
+            <img src={`${A}/echoa_red.webp`} alt="Echoa" />
           </a>
           <h1>
             Brands deserve to
@@ -180,7 +225,7 @@ export default function App() {
             muted
             playsInline
             preload="metadata"
-            poster={`${A}/film-poster.svg`}
+            poster={`${A}/film-poster.webp`}
             aria-hidden="true"
           >
             <source src={`${A}/film.mp4`} type="video/mp4" />
@@ -207,13 +252,13 @@ export default function App() {
           We believe every piece of content should contribute to a brand&apos;s
           identity, recognition and lasting impression.
         </SectionIntro>
-        <img src={`${A}/2a5ea.png`} alt="" />
+        <img src={`${A}/echoa_min.webp`} alt="" />
       </section>
 
       <section className="about section-shell" id="about">
         <div className="about__image">
           <img
-            src={`${A}/a05f7.png`}
+            src={`${A}/about/about-hero.webp`}
             alt="Fashion editorial concept portrait"
           />
           <span>Studio / ECHOA</span>

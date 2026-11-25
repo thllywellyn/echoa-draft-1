@@ -40,12 +40,7 @@ export default function AboutPage() {
 
       <main id="top">
         <section className="hero" aria-label="ECHOA founders">
-          <img className="hero-layer hero-image" src={`${assets}/43474.png`} alt="" />
-          {/* <img
-            className="hero-layer hero-portrait"
-            src={`${assets}/44632.png`}
-            alt="Two ECHOA founders wearing pink flowers"
-          /> */}
+          <img className="hero-layer hero-image" src={`${assets}/categories/fashion.webp`} alt="" />
           <div className="hero-shade" />
         </section>
 
@@ -79,7 +74,7 @@ export default function AboutPage() {
                   <span>{label}</span>
                 </div>
                 {index < stats.length - 1 && (
-                  <img className="stats-divider" src={`${assets}/cd569.svg`} alt="" />
+                  <span className="stats-divider" aria-hidden="true" />
                 )}
               </Fragment>
             ))}
@@ -165,14 +160,14 @@ export default function AboutPage() {
           </div>
           <div className="portrait-grid">
             <article className="portrait">
-              <img src={`${assets}/430eb.png`} alt="Jayshree Pruthi" />
+              <img src={`${assets}/about/jayashree.webp`} alt="Jayshree Pruthi" />
               <div className="portrait-caption">
                 <strong>Jayshree Pruthi</strong>
                 <span>Founder &amp; Creative Lead</span>
               </div>
             </article>
             <article className="portrait">
-              <img src={`${assets}/07477.png`} alt="Harshita Pandey" />
+              <img src={`${assets}/about/harshita.webp`} alt="Harshita Pandey" />
               <div className="portrait-caption">
                 <strong>Harshita Pandey</strong>
                 <span>Co founder</span>
@@ -181,7 +176,7 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <section className="cta">
+        <section className="cta" id="contact">
           <p className="eyebrow light">Let's create something</p>
           <h2>
             Let's build something

@@ -8,7 +8,7 @@ export function Footer() {
           <div>
             <img
               className="footer-logo"
-              src={`${ASSET_BASE}/b2ac7.png`}
+              src={`${ASSET_BASE}/echoa_white.webp`}
               alt="Echoa"
             />
             <p className="footer-caption">
