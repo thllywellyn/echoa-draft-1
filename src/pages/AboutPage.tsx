@@ -27,7 +27,15 @@ const steps = [
   ],
 ]
 
-const disciplines = ["Fashion", "Jewellery", "Beauty", "Home and Living"]
+const disciplines = [
+  ["Fashion", "#/fashion"],
+  ["Jewellery", "#/jewellery"],
+  ["Beauty", "#/beauty"],
+  ["Home and Living", "#/lifestyle"],
+  ["Accessories", "#/accessories"],
+  ["Food and Beverages", "#/food-and-beverages"],
+  ["Pet Care", "#/pet-care"],
+]
 
 function Arrow() {
   return <span aria-hidden="true">↗</span>
@@ -132,8 +140,8 @@ export default function AboutPage() {
             </p>
           </div>
           <div className="discipline-list">
-            {disciplines.map((discipline) => (
-              <a href="mailto:hello@echoa.in" key={discipline}>
+            {disciplines.map(([discipline, href]) => (
+              <a href={href} key={discipline}>
                 <span>{discipline}</span>
                 <Arrow />
               </a>

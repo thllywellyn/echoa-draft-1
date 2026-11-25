@@ -320,11 +320,18 @@ export default function App() {
                 create. We’ll be in touch to explore how we can work together.
               </span>
             </SectionIntro>
-            <button className="submit-link" type="submit" form="contact-form">
-              Start a Conversation
-            </button>
           </div>
-          <ContactForm />
+          <div className="contact__form">
+            <ContactForm />
+            <div className="contact__form-footer">
+              <button className="submit-link" type="submit" form="contact-form">
+                Start a Conversation
+              </button>
+              <p className="contact__form-note">
+                Submitting opens a pre-filled email. No information is stored.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
       <Footer />

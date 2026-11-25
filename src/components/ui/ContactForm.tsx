@@ -57,7 +57,6 @@ export function ContactForm() {
         <option>Content Production</option>
         <option>Content Execution</option>
       </select>
-      <p>Submitting opens a pre-filled email. No information is stored.</p>
     </form>
   )
 }

@@ -63,14 +63,14 @@ Mobile styles (600px and below)
   .hero-ripple {
     width: 936.135px;
     height: 514.763px;
-    top: -90px;
+    top: -50px;
     left: -100px;
     transform: rotate(6.972deg);
     aspect-ratio: 411/226;
   }
 
   .hero-content {
-    padding-top: clamp(240px, 76vw, 300px);
+    padding-top: clamp(224px, 72vw, 284px);
     padding-bottom: 20px;
   }
 
@@ -279,18 +279,29 @@ Mobile styles (600px and below)
   }
 
   .submit-link {
-    margin-top: 0;
+    margin: 0;
     font-family: 'Inter:Regular', Arial, sans-serif;
     font-size: 14px;
+  }
+
+  .contact__form-footer {
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .contact__form-note {
+    order: 1;
+    text-align: center;
+  }
+
+  .contact__form-footer .submit-link {
+    order: 0;
   }
 
   #contact-form {
     grid-template-columns: 1fr;
     gap: 25px;
-  }
-
-  #contact-form p {
-    grid-column: auto;
   }
 
   footer {

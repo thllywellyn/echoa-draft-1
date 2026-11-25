@@ -645,7 +645,9 @@ Desktop styles (901px and above)
 }
 
 .submit-link {
-  margin-top: 20px;
+  display: block;
+  width: fit-content;
+  margin: 0;
   padding: 0 0 6px;
   border: 0;
   border-bottom: .6px solid var(--cream);
@@ -655,6 +657,26 @@ Desktop styles (901px and above)
   font-size: 16px;
   line-height: 27px;
   cursor: pointer;
+}
+
+.contact__form-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.contact__form-note {
+  order: 0;
+  margin: 0;
+  color: rgba(248, 244, 237, .75);
+  font-size: 14px;
+  line-height: 19px;
+}
+
+.contact__form-footer .submit-link {
+  order: 1;
 }
 
 #contact-form {
@@ -693,11 +715,27 @@ Desktop styles (901px and above)
 }
 
 #contact-form select {
-  appearance: auto;
+  appearance: none;
+  padding-right: 28px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='m3 6 5 5 5-5' stroke='%23f8f4ed' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 2px center;
+  background-size: 14px;
+  cursor: pointer;
 }
 
 #contact-form select option {
-  color: #0e0e0e;
+  color: var(--cream);
+  background-color: var(--red);
+}
+
+#contact-form select option:checked {
+  background-color: #700a12;
+}
+
+#contact-form select:focus-visible {
+  outline: 1px solid rgba(248, 244, 237, .45);
+  outline-offset: 4px;
 }
 
 #contact-form input:focus,
