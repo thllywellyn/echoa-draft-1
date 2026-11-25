@@ -8,7 +8,7 @@ export function Header() {
 
   return (
     <header className="site-header">
-      <a href="#home" className="logo" aria-label="Echoa home">
+      <a href="/#home" className="logo" aria-label="Echoa home">
         <img src={`${ASSET_BASE}/echoa_red.webp`} alt="Echoa" />
       </a>
       <button
@@ -29,10 +29,10 @@ export function Header() {
         aria-label="Primary navigation"
       >
         {[
-          ["Home", "#home"],
-          ["Work", "#work"],
-          ["Services", "#services"],
-          ["About", "#/about"],
+          ["Home", "/#home"],
+          ["Work", "/#work"],
+          ["Services", "/#services"],
+          ["About", "/about/"],
         ].map(([label, href]) => (
           <a
             key={label}
@@ -44,7 +44,7 @@ export function Header() {
         ))}
         <a
           className="contact-button"
-          href="#contact"
+          href="/#contact"
           onClick={() => setMenuOpen(false)}
         >
           Contact

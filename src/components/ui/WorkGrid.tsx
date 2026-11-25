@@ -194,6 +194,8 @@ export function WorkGrid({ items }: { items: WorkItem[] }) {
               alt={`${item.title} concept photography`}
               style={{ objectPosition: item.position }}
               draggable={false}
+              loading="lazy"
+              decoding="async"
             />
 
             <div className="work-card__shade" />
@@ -212,6 +214,8 @@ export function WorkGrid({ items }: { items: WorkItem[] }) {
               alt={`${item.title} concept photography`}
               style={{ objectPosition: item.position }}
               draggable={false}
+              loading="lazy"
+              decoding="async"
             />
 
             <div className="work-card__shade" />

@@ -28,13 +28,13 @@ const steps = [
 ]
 
 const disciplines = [
-  ["Fashion", "#/fashion"],
-  ["Jewellery", "#/jewellery"],
-  ["Beauty", "#/beauty"],
-  ["Home and Living", "#/lifestyle"],
-  ["Accessories", "#/accessories"],
-  ["Food and Beverages", "#/food-and-beverages"],
-  ["Pet Care", "#/pet-care"],
+  ["Fashion", "/fashion/"],
+  ["Jewellery", "/jewellery/"],
+  ["Beauty", "/beauty/"],
+  ["Home and Living", "/lifestyle/"],
+  ["Accessories", "/accessories/"],
+  ["Food and Beverages", "/food-and-beverages/"],
+  ["Pet Care", "/pet-care/"],
 ]
 
 function Arrow() {

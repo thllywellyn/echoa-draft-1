@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { Footer, Header } from "../layout"
+import { DeferredVideo } from "./DeferredVideo"
 import { categoryAssets } from "virtual:category-gallery-assets"
 
 type Category =
@@ -142,19 +143,13 @@ export function CategoryPage({
         aria-label={`View ${title} item ${index + 1}`}
       >
         {item.video ? (
-          <video
-            src={item.src ?? `${base}/${item.name}.mp4`}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-          />
+          <DeferredVideo src={item.src ?? `${base}/${item.name}.mp4`} />
         ) : (
           <img
             src={item.src ?? `${base}/${item.name}.webp`}
             alt=""
-            loading={index > 10 ? "lazy" : "eager"}
+            loading={index > 3 ? "lazy" : "eager"}
+            decoding="async"
           />
         )}
         <span>View</span>
@@ -170,6 +165,8 @@ export function CategoryPage({
           className={category === "fashion" ? "category-hero__fashion-image" : undefined}
           src={heroImage}
           alt=""
+          fetchPriority="high"
+          decoding="async"
         />
         <div className="category-hero__shade" />
         <h1>{title}</h1>

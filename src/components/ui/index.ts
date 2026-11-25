@@ -1,4 +1,5 @@
 export { Accordion } from "./Accordion"
 export { ContactForm } from "./ContactForm"
+export { DeferredVideo } from "./DeferredVideo"
 export { SectionIntro } from "./SectionIntro"
 export { WorkGrid } from "./WorkGrid"

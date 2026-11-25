@@ -1,13 +1,19 @@
 import { Footer, Header } from "./components/layout"
-import { CategoryPage } from "./components/ui/CategoryPage"
 import {
   Accordion,
   ContactForm,
+  DeferredVideo,
   SectionIntro,
   WorkGrid,
 } from "./components/ui"
-import { useEffect, useState } from "react"
-import AboutPage from "./pages/AboutPage"
+import { lazy, Suspense, useEffect, useState } from "react"
+
+const AboutPage = lazy(() => import("./pages/AboutPage"))
+const CategoryPage = lazy(() =>
+  import("./components/ui/CategoryPage").then((module) => ({
+    default: module.CategoryPage,
+  })),
+)
 
 const A = "/assets"
 const categories = [
@@ -40,43 +46,43 @@ const work = [
     title: "Fashion",
     image: categoryImages.fashion,
     position: "center",
-    href: "#/fashion",
+    href: "/fashion/",
   },
   {
     title: "Jewellery",
     image: categoryImages.jewellery,
     position: "center",
-    href: "#/jewellery",
+    href: "/jewellery/",
   },
   {
     title: "Beauty",
     image: categoryImages.beauty,
     position: "center",
-    href: "#/beauty",
+    href: "/beauty/",
   },
   {
     title: "Home and Living",
     image: categoryImages.lifestyle,
     position: "center",
-    href: "#/lifestyle",
+    href: "/lifestyle/",
   },
   {
     title: "Accessories",
     image: categoryImages.accessories,
     position: "center",
-    href: "#/accessories",
+    href: "/accessories/",
   },
   {
     title: "Food and Beverages",
     image: categoryImages["food-and-beverages"],
     position: "center",
-    href: "#/food-and-beverages",
+    href: "/food-and-beverages/",
   },
   {
     title: "Pet Care",
     image: categoryImages["pet-care"],
     position: "center",
-    href: "#/pet-care",
+    href: "/pet-care/",
   },
 ]
 
@@ -117,9 +123,10 @@ const services = [
 
 export default function App() {
   const [route, setRoute] = useState(() =>
-    window.location.hash.startsWith("#/")
-      ? window.location.hash.slice(2).split("/")[0]
-      : "",
+    window.location.pathname.replace(/^\/+|\/+$/g, "").split("/")[0] ||
+      (window.location.hash.startsWith("#/")
+        ? window.location.hash.slice(2).split("/")[0]
+        : ""),
   )
 
   useEffect(() => {
@@ -142,11 +149,19 @@ export default function App() {
   }, [route])
 
   if (route === "about") {
-    return <AboutPage />
+    return (
+      <Suspense fallback={null}>
+        <AboutPage />
+      </Suspense>
+    )
   }
 
   if (isCategory(route)) {
-    return <CategoryPage key={route} category={route} heroImage={categoryImages[route]} />
+    return (
+      <Suspense fallback={null}>
+        <CategoryPage key={route} category={route} heroImage={categoryImages[route]} />
+      </Suspense>
+    )
   }
 
   return (
@@ -219,17 +234,11 @@ export default function App() {
 
       <section className="point-of-view">
         <div className="film">
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="metadata"
+          <DeferredVideo
+            src={`${A}/film.mp4`}
             poster={`${A}/film-poster.webp`}
-            aria-hidden="true"
-          >
-            <source src={`${A}/film.mp4`} type="video/mp4" />
-          </video>
+            ariaHidden
+          />
           <h2 className="film__title">
             Attention is earned.
             <br />
@@ -274,7 +283,7 @@ export default function App() {
             create considered content that helps brands communicate who they
             are, what they stand for and why they matter.
           </p>
-          <a className="text-link" href="#/about">
+          <a className="text-link" href="/about/">
             About us <span>↗</span>
           </a>
         </div>

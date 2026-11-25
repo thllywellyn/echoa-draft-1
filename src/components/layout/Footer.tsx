@@ -19,10 +19,10 @@ export function Footer() {
           </div>
           <nav aria-label="Footer navigation">
             <span className="footer-heading">Page</span>
-            <a href="#work">Work</a>
-            <a href="#services">Services</a>
-            <a href="#/about">About</a>
-            <a href="#contact">Contact</a>
+            <a href="/#work">Work</a>
+            <a href="/#services">Services</a>
+            <a href="/about/">About</a>
+            <a href="/#contact">Contact</a>
           </nav>
           <div className="footer-links">
             <span className="footer-heading">Social Media</span>
