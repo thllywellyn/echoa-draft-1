@@ -119,6 +119,10 @@ Mobile styles (600px and below)
     margin-top: 26px;
   }
 
+  .work-carousel__controls {
+    transform: translateY(-180px);
+  }
+
   .work-grid__group {
     gap: 16px;
     padding-right: 16px;
@@ -127,7 +131,7 @@ Mobile styles (600px and below)
   .work-card {
     flex-basis: 74vw;
     min-width: 0;
-    height: 240px;
+    height: 360px;
     background: #ddd;
   }
 

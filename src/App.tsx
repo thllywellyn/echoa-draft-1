@@ -133,20 +133,22 @@ export default function App() {
         </div>
       </section>
 
-      <section className="work section-shell" id="work">
-        <SectionIntro
-          eyebrow="The work."
-          title={
-            <>
-              Work that leaves
-              <br />
-              an impression.
-            </>
-          }
-        >
-          A selection of visual worlds shaped with intention. Imagery shown is
-          concept work pending approved client assets.
-        </SectionIntro>
+      <section className="work" id="work">
+        <div className="section-shell">
+          <SectionIntro
+            eyebrow="The work."
+            title={
+              <>
+                Work that leaves
+                <br />
+                an impression.
+              </>
+            }
+          >
+            A selection of visual worlds shaped with intention. Imagery shown is
+            concept work pending approved client assets.
+          </SectionIntro>
+        </div>
         <WorkGrid items={work} />
       </section>
 
