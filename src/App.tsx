@@ -101,7 +101,7 @@ export default function App() {
   }
 
   if (isCategory(route)) {
-    return <CategoryPage category={route} />
+    return <CategoryPage key={route} category={route} />
   }
 
   return (

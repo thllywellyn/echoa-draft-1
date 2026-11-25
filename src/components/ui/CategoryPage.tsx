@@ -30,6 +30,33 @@ type GalleryItem = {
   automatic?: boolean
 }
 
+function shuffleItems<T>(items: T[]): T[] {
+  const shuffled = [...items]
+  for (let index = shuffled.length - 1; index > 0; index -= 1) {
+    const swapIndex = Math.floor(Math.random() * (index + 1))
+    const currentItem = shuffled[index]
+    shuffled[index] = shuffled[swapIndex]
+    shuffled[swapIndex] = currentItem
+  }
+  return shuffled
+}
+
+function shuffleGalleryItems(items: GalleryItem[]): GalleryItem[] {
+  const photos = shuffleItems(items.filter((item) => !item.video))
+  const videos = shuffleItems(items.filter((item) => item.video))
+  const videoSlots = Array.from({ length: photos.length + 1 }, () => [] as GalleryItem[])
+  const slotOrder = shuffleItems(videoSlots.map((_, index) => index))
+
+  videos.forEach((video, index) => {
+    videoSlots[slotOrder[index % slotOrder.length]].push(video)
+  })
+
+  return videoSlots.flatMap((slot, index) => [
+    ...shuffleItems(slot),
+    ...(photos[index] ? [photos[index]] : []),
+  ])
+}
+
 const heroNames: Record<Category, string> = {
   fashion: "44632",
   jewellery: "d5370",
@@ -52,15 +79,18 @@ export function CategoryPage({ category }: { category: Category }) {
       ? "jewellery"
       : category
 
-  const excludedFashionAssets = new Set(["a4d6e", "b2ac7", "b9e70"])
-  const gallery: GalleryItem[] = categoryAssets[sourceCategory]
-    .filter((asset) => !(category === "fashion" && excludedFashionAssets.has(asset.name)))
-    .map((asset) => ({
-      name: asset.name,
-      src: asset.src,
-      video: asset.video,
-      automatic: true,
-    }))
+  const [gallery] = useState(() => {
+    const excludedFashionAssets = new Set(["a4d6e", "b2ac7", "b9e70"])
+    const items: GalleryItem[] = categoryAssets[sourceCategory]
+      .filter((asset) => !(category === "fashion" && excludedFashionAssets.has(asset.name)))
+      .map((asset) => ({
+        name: asset.name,
+        src: asset.src,
+        video: asset.video,
+        automatic: true,
+      }))
+    return shuffleGalleryItems(items)
+  })
 
   const base = `/category-assets/${sourceCategory}`
 
