@@ -215,9 +215,10 @@ Desktop styles (901px and above)
   position: relative;
   width: 100%;
   margin-top: 32px;
-  overflow-x: auto;
+  overflow-x: hidden;
   overflow-y: hidden;
   scrollbar-width: none;
+  touch-action: pan-y;
 }
 
 .work-carousel::-webkit-scrollbar {
@@ -227,6 +228,7 @@ Desktop styles (901px and above)
 .work-grid {
   display: flex;
   width: max-content;
+  will-change: transform;
 }
 
 .work-grid__group {
